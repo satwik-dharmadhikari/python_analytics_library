@@ -16,6 +16,7 @@ import pandas as pd
 import pdb # Debugger
 from sys import exit
 import get_and_clean.gc_miss as gc
+import get_and_clean.gc_label_encoder as le
 
 # Stage 1: Getting and Cleaning Data
 # ==================================
@@ -237,7 +238,7 @@ df.drop(['id_phone',
 #print('describe TIPO_EVENTO')
 
 #df['TIPO_EVENTO'].describe()
-exit(0)
+
 
 df['TIPO_EVENTO'].fillna('NO1', inplace=True)
 #df['AGENTE'].fillna('NO2', inplace=True)
@@ -255,34 +256,6 @@ df['TIPO_EVENTO'].fillna('NO1', inplace=True)
 
 # df.select_dtypes(include=['object']).head(5)
 
-from sklearn import preprocessing
-from sklearn.preprocessing import LabelEncoder
-
-# Transformo las variables string a números
-
-class MultiColumnLabelEncoder:
-    def __init__(self,columns = None):
-        self.columns = columns # Arreglo de columnas de interés
-
-    def fit(self,X,y=None):
-        return self 
-
-    def transform(self,X):
-        '''
-        Transfomra las columnas indicadas en el array columns,
-        si no se especifica, transforma todas las columnas.
-        '''
-        output = X.copy()
-        if self.columns is not None:
-            for col in self.columns:
-                output[col] = LabelEncoder().fit_transform(output[col])
-        else:
-            for colname,col in output.iteritems():
-                output[colname] = LabelEncoder().fit_transform(col)
-        return output
-
-    def fit_transform(self,X,y=None):
-        return self.fit(X,y).transform(X)
 
 
 #df2 = MultiColumnLabelEncoder(columns = ['TIPO_EVENTO','AGENTE','MARCA_ES_EMPRESA','MARCA_FUE_MOVISTAR',
@@ -293,13 +266,14 @@ class MultiColumnLabelEncoder:
 #pdb.set_trace()
 
 print('Info df, para ver numero de variables')
+
 print(df.info())
 
-df2 = MultiColumnLabelEncoder(columns = ['TIPO_EVENTO']).fit_transform(df)
+df2 = le.MultiColumnLabelEncoder(columns = ['TIPO_EVENTO']).fit_transform(df)
 
 # Tratamiento de los NaN
 
-missing_values_table(df2)
+gc.missing_values_table(df2)
 
 # Step 2: Exploratory Data Analysis
 # =================================
@@ -307,6 +281,7 @@ missing_values_table(df2)
 print('*******************Correlation***********************')
 
 print(df2.corr()['target_julio'])
+exit(0)
 
 # Step 3: Construcción del Modelo
 # ===============================
