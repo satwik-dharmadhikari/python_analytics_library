@@ -120,7 +120,6 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
 # ******************************************************
 
 # Inspección de datos
-
     
 # Nota: La variable 'Precios Porta' se ve sospechosa, ya que no contiene valores. Revisamos esto
 
@@ -507,39 +506,17 @@ df_lastest.drop(['id_phone',
 
 df_lastest.is_copy = False # Elimina un warning sobre copia de df, no altera los valores
 
-# Esto debo convertir en method, para reutilizar
-
 df_lastest['TIPO_EVENTO'].fillna('NO1', inplace=True)
-#df_lastest['AGENTE'].fillna('NO2', inplace=True)
-#df_lastest['MARCA_ES_EMPRESA'].fillna('NO3', inplace=True)
-#df_lastest['MARCA_FUE_MOVISTAR'].fillna('NO4', inplace=True)
-#df_lastest['CALIFICA_UNIVERSO'].fillna('NO5', inplace=True)
-#df_lastest['OFERTA'].fillna('NO6', inplace=True)
-#df_lastest['PRODUCTO'].fillna('NO7', inplace=True)
-#df_lastest['MARCA_PORTO'].fillna('NOPORTO', inplace=True)
-#df_lastest['Q_MESES_CAMP'].fillna(12, inplace=True)
 
 print('Describe df_lastest')
 
 df_lastest_f = df_lastest.fillna(df_lastest.mean())
-print(df_lastest_f.describe())
-print('Info df_lastest')
-print(df_lastest_f.describe())
-
-#df_lastest2 = MultiColumnLabelEncoder(columns = ['TIPO_EVENTO','AGENTE','MARCA_ES_EMPRESA',
-#    'MARCA_FUE_MOVISTAR','CALIFICA_UNIVERSO','OFERTA','PRODUCTO','MARCA_PORTO']).fit_transform(df_lastest_f)
 
 df_lastest2 = MultiColumnLabelEncoder(columns = ['TIPO_EVENTO']).fit_transform(df_lastest_f)
 
-print('Flag 1')
-#final_df_lastest2 = model.predict_proba(df_lastest2.drop("target_julio",axis=1))[:,1]
-
 final_df_lastest2 = model.predict_proba(df_lastest2)[:,1]
-print('Flag 2')
+
 df_lastest['score'] = final_df_lastest2
 
 print('Final Table Scored')
-#print(df_original[0:20])
-#print(df_original[['id_phone', 'target_JULIO', 'score']])
-#print(len(df_original))
-print(df_lastest[0:20])
+print(df_lastest[0:200])
