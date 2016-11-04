@@ -9,4 +9,5 @@ def missing_values_table(df):
         columns = {0 : 'Missing Values', 1 : '% of Total Values'})
         return mis_val_table_ren_columns 
 
-# print(missing_values_table(df))
+def miss_val_rows(df):
+		sum(map(any, df.isnull()))

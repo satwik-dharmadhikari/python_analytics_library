@@ -6,25 +6,22 @@
 # run with $time python Port_IN.py
 #
 # Task
-# ====
 # * Usar OOP (Oriented Object Programming)
-# * Modularizar
 # *****************************************************************************
 
 import numpy as np
 import pandas as pd
 import pdb # Debugger
 from sys import exit
+
+# Telefonica Library
 import get_and_clean.gc_miss as gc
 import get_and_clean.gc_label_encoder as le
+import exp_data_analysis.ed_size_shape as sh
 
 # Stage 1: Getting and Cleaning Data
 # ==================================
 
-# Step1: Import required libraries and read test and train data set
-# *****************************************************************
-
-# Cargo los datos, salida de Teradata.
 df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
     encoding='cp1252',
     dtype={'id_phone': str, # In Train
@@ -124,14 +121,7 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
 
 # Inspección de datos
 
-#print('Inspección de Datos **************************************************')
-#print('Data Frame Train/Test')
-#print(len(df))
-#print(df[1:10])
-#print(list(df.columns))
-
-# print(df.describe())
-
+    
 # Nota: La variable 'Precios Porta' se ve sospechosa, ya que no contiene valores. Revisamos esto
 
 # print(df['PRECIO_PORTA'].count())
@@ -141,17 +131,9 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
     
 # Cuento el numero de filas con missing
 
-# print(sum(map(any, df.isnull())))
+print(gc.miss_val_rows(df))
 
 # Ahora analizo cuantos NaN hay por columnas, y su relación porcentual
-
-#def missing_values_table(df): 
-#        mis_val = df.isnull().sum()
-#        mis_val_percent = 100 * df.isnull().sum()/len(df)
-#        mis_val_table = pd.concat([mis_val, mis_val_percent], axis=1)
-#        mis_val_table_ren_columns = mis_val_table.rename(
-#        columns = {0 : 'Missing Values', 1 : '% of Total Values'})
-#        return mis_val_table_ren_columns 
 
 print(gc.missing_values_table(df))
 
@@ -250,24 +232,16 @@ df['TIPO_EVENTO'].fillna('NO1', inplace=True)
 #df['MARCA_PORTO'].fillna('NOPORTO', inplace=True)
 #df['Q_MESES_CAMP'].fillna(12, inplace=True)
 
-# ## Binarizo Variables
-
-# Selecciono las variables de tipo string
-
-# df.select_dtypes(include=['object']).head(5)
-
-
-
-#df2 = MultiColumnLabelEncoder(columns = ['TIPO_EVENTO','AGENTE','MARCA_ES_EMPRESA','MARCA_FUE_MOVISTAR',
-#                                      'CALIFICA_UNIVERSO','OFERTA','PRODUCTO','MARCA_PORTO']).fit_transform(df)
-
-# Debugger
+# Binarizo Variables
+# ******************
 
 #pdb.set_trace()
 
 print('Info df, para ver numero de variables')
 
-print(df.info())
+print(sh.show_info(df))
+
+exit(0)
 
 df2 = le.MultiColumnLabelEncoder(columns = ['TIPO_EVENTO']).fit_transform(df)
 
@@ -281,7 +255,7 @@ gc.missing_values_table(df2)
 print('*******************Correlation***********************')
 
 print(df2.corr()['target_julio'])
-exit(0)
+
 
 # Step 3: Construcción del Modelo
 # ===============================
@@ -308,7 +282,8 @@ print('**************************************************')
 
 df3 = df2.fillna(df2.mean())
 
-print(missing_values_table(df3))
+print(gc.missing_values_table(df3))
+
 
 # Defino las variables Target y de Entrenamiento
 # **********************************************
