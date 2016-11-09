@@ -5,8 +5,6 @@
 #
 # run with $time python Port_IN.py
 #
-# Task
-# * Usar OOP (Oriented Object Programming)
 # *****************************************************************************
 
 import numpy as np
@@ -27,7 +25,7 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
     dtype={'id_phone': str, # In Train
     'Operator_Cd': np.int64, # In Train
     'operador': str, # In Train
-    'Q_ANIS_SNA': np.float64, # In Train
+    'Q_ANIS_SNA': np.float64, # In Train - Como se relacionan
     'WEIGHT': np.float64, # In Train
     'DIR': np.float64, # In Train
     'Q_CONTAC_POS': np.float64, # In Train
@@ -120,6 +118,8 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
 # ******************************************************
 
 # Inspección de datos
+
+
     
 # Nota: La variable 'Precios Porta' se ve sospechosa, ya que no contiene valores. Revisamos esto
 
@@ -127,14 +127,15 @@ df = pd.read_table('IP_BASE_PORT_IN_TRAIN_F.txt', sep=";",
 
 # Sept 3: Identify the variables with missing values
 # **************************************************
-    
+        
 # Cuento el numero de filas con missing
 
 print(gc.miss_val_rows(df))
 
 # Ahora analizo cuantos NaN hay por columnas, y su relación porcentual
 
-print(gc.missing_values_table(df))
+print(gc.missing_values_table(df).sort_values('% of Total Values'))
+exit(0)
 
 # Imprimo los valores con mayor cantidad de Missing
 # 
@@ -209,8 +210,9 @@ df.drop(['id_phone',
     'q_cont_c_reclamos'
     ], axis = 1, inplace = True)
 
-# Elimino por no poder tratar las variables, una idea puede ser convertir a categoria 
-# numerica a mano, es decir: Ordenar alfabeticamente y luego asignar un número.
+# En algunos casos, elimino por no poder tratar las variables, una idea puede ser 
+# convertir a categoria numerica a mano, es decir: Ordenar alfabeticamente y luego 
+# asignar un número.
 
 # ## Convierto NaN a categorias
 
@@ -234,7 +236,7 @@ df['TIPO_EVENTO'].fillna('NO1', inplace=True)
 # Binarizo Variables
 # ******************
 
-#pdb.set_trace()
+# pdb.set_trace()
 
 print('Info df, para ver numero de variables')
 
