@@ -18,6 +18,16 @@ gc_miss
 Explora los datos faltantes en una tabla. Imprime el porcentaje
 de datos faltantes en cada columna.
 
+gc_fold_data (en desarrollo)
+****************************
+
+Fracciona un archivo grande y devuelve las partes en pequeños archivos
+
+gc_unfold_data (en desarrollo)
+******************************
+
+Reconstruye un archivo fraccionado por **gc_fold_data**.
+
 
 
 	
