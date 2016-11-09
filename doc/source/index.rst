@@ -3,16 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to DS_PyTelefonica's documentation!
-===========================================
+Librería PyTL - Librería Interna Grupo Analytics
+================================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
 
-
-
+	eda_lib
+	gcd_lib
+	
 Indices and tables
 ==================
 
