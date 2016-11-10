@@ -14,4 +14,7 @@ Esta es la primer aproximación que hacemos al conjunto de
 datos de interés. **ed_size_shape** permite explorar en 
 forma inmediata el tamaño de la tabla, cuartiles, tipos 
 de datos, etc.
-	
+
+show_info
+^^^^^^^^^
+	Imprime...

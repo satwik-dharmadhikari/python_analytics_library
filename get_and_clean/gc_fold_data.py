@@ -1,17 +1,21 @@
 # Para manipular archivos grandes
 
-import contextlib
+#import logging.handlers
 
+#log = logging.getLogger()
+#fh = logging.handlers.RotatingFileHandler("TRAIN_Frac.txt", 
+#     maxBytes=2**20*100, backupCount=100, encoding='cp1252') 
+# 100 MB each, up to a maximum of 100 files
+#log.addHandler(fh)
+#log.setLevel(logging.INFO)
+#f = open("IP_BASE_PORT_IN_TRAIN_F.txt")
 
-chunksize = 50*10**4
-fid = 1
-with open('IP_BASE_PORT_IN_TRAIN_F.txt', 
-	encoding='cp1252') as infile:
-    f = open('file%d.txt' %fid, 'w')
-    for i,line in enumerate(infile):
-        f.write(line)
-        if not i%chunksize:
-            f.close()
-            fid += 1
-            f = open('file%d.txt' %fid, 'w')
-    f.close()
+#while True:
+	#log.info(f.readline().strip())
+
+import os
+
+def split_file(file, size):
+	msn = 'split --bytes '+str(size)+'M --numeric-suffixes --suffix-length=2 '+ file+' '+file+'par'
+	print(msn)
+	os.system(msn)
