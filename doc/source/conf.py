@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'PyTL'
+project = 'PyAL'
 copyright = '2016, Carlos A. Giménez'
 author = 'Carlos A. Giménez'
 
